@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>H a p p y B i r t h d a y</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      overflow: hidden;
+      font-family: 'Arial Black', sans-serif;
+    }
+
+    /* Rainbow gradient text */
+    .gradient-text {
+      font-weight: bold;
+      background: linear-gradient(90deg, gold, red, pink, violet, blue, cyan, lime);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 20px white, 0 0 40px gold;
+    }
+
+    /* Vertical rainfall text */
+    .drop {
+      position: absolute;
+      top: -50px;
+      font-size: 20px;
+      font-weight: bold;
+      background: linear-gradient(to right, gold, orange);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 10px gold, 0 0 20px orange, 0 0 30px white;
+      animation: fall 6s linear forwards;
+    }
+
+    @keyframes fall {
+      0%   { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(100vh); opacity: 0; }
+    }
+
+    /* Countdown */
+    #countdown {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 100px;
+      opacity: 0;
+      transition: opacity 2s ease;
+    }
+
+    /* Final message */
+    #final {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 70px;
+      display: none;
+      animation: sparkle 2s infinite;
+    }
+
+    @keyframes sparkle {
+      0% { text-shadow: 0 0 20px gold, 0 0 40px orange; }
+      50% { text-shadow: 0 0 40px white, 0 0 80px gold; }
+      100% { text-shadow: 0 0 20px gold, 0 0 40px orange; }
+    }
+
+    /* Love message */
+    #loveMessage {
+      display: none;
+      position: absolute;
+      top: 75%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 50px;
+      animation: glow 2s infinite;
+    }
+
+    @keyframes glow {
+      0% { text-shadow: 0 0 20px red, 0 0 40px hotpink; }
+      50% { text-shadow: 0 0 40px white, 0 0 80px pink; }
+      100% { text-shadow: 0 0 20px red, 0 0 40px hotpink; }
+    }
+
+    /* Video styling */
+    #birthdayVideo {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      height: 300px;
+      object-fit: cover;
+      border: 3px solid gold;
+      border-radius: 10px;
+      box-shadow: 0 0 20px gold, 0 0 40px red;
+    }
+  </style>
+</head>
+<body>
+  <div id="countdown" class="gradient-text">3 💖</div>
+  <div id="final" class="gradient-text">Happy Birthday 🎂🎁</div>
+  <div id="loveMessage" class="gradient-text">💖 I love you 💖</div>
+
+  <!-- Video at the end -->
+  <video id="birthdayVideo" autoplay muted loop controls>
+    <source src="bdy.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <script>
+    // Vertical rainfall effect filling background
+    function createDrop() {
+      const drop = document.createElement("div");
+      drop.className = "drop gradient-text";
+      drop.innerText = "Happy Birthday mine 🎂✨";
+      drop.style.left = Math.random() * window.innerWidth + "px";
+      drop.style.animationDuration = (4 + Math.random() * 3) + "s";
+      document.body.appendChild(drop);
+
+      setTimeout(() => drop.remove(), 7000);
+    }
+    setInterval(createDrop, 150); // faster interval for more coverage
+
+    // Countdown
+    const countdown = document.getElementById("countdown");
+    const finalMessage = document.getElementById("final");
+    const loveMessage = document.getElementById("loveMessage");
+    const birthdayVideo = document.getElementById("birthdayVideo");
+    let count = 3;
+
+    function showCountdown() {
+      countdown.innerText = count + " 💖";
+      countdown.style.opacity = 1;
+
+      setTimeout(() => {
+        countdown.style.opacity = 0;
+        count--;
+        if (count > 0) {
+          setTimeout(showCountdown, 2000);
+        } else {
+          setTimeout(() => {
+            countdown.style.display = "none";
+            finalMessage.style.display = "block";
+
+            // Show love message after 3s
+            setTimeout(() => {
+              loveMessage.style.display = "block";
+
+              // Show video after 3s more
+              setTimeout(() => {
+                birthdayVideo.style.display = "block";
+                birthdayVideo.play(); // ensure autoplay
+              }, 3000);
+
+            }, 3000);
+          }, 2000);
+        }
+      }, 2000);
+    }
+
+    showCountdown();
+  </script>
+</body>
+</html>
